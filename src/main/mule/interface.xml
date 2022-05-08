@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="lu-sl-sap-main">
+        <http:listener path="${https.path}" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:name="log-apikit-entry" doc:id="4d7cafe0-d855-4fab-b11a-c139908946c7" name="log-apikit-entry" />
+        <apikit:router config-ref="lu-sl-sap-config" />
+        <flow-ref doc:name="log-apikit-exit" doc:id="eb570337-485a-4e65-b4e2-94b263da543d" name="log-apikit-exit" />
+    </flow>
+    <flow name="delete:\deleteBusinessPartner\(id):lu-sl-sap-config">
+        <flow-ref doc:name="delete-business-partner-subflow" doc:id="233d1cd9-f587-44fd-9145-0b6a84da1b22" name="delete-business-partner-subflow" />
+    </flow>
+    <flow name="delete:\deleteBusinessPartnerAddress\(id):lu-sl-sap-config">
+        <flow-ref doc:name="delete-business-partner-address-subflow" doc:id="87c13238-f359-4e8a-bce6-7bf24d537cda" name="delete-business-partner-address-subflow" />
+    </flow>
+    <flow name="patch:\updateBusinessPartnerAddress\(id):lu-sl-sap-config">
+        <flow-ref doc:name="update-business-partner-address-subflow" doc:id="a2a32220-f737-4851-aa98-438516f7a3e7" name="update-business-partner-address-subflow" />
+    </flow>
+    <flow name="patch:\updateBusinessPartner\(id):lu-sl-sap-config">
+        <flow-ref doc:name="update-business-partner-subflow" doc:id="2348b140-4b6b-4c7e-b885-b34465195f13" name="update-business-partner-subflow" />
+    </flow>
+    <flow name="get:\getAllBusinessPartnerAddresses:lu-sl-sap-config">
+        <flow-ref doc:name="get-all-business-partners-addresses-subflow" doc:id="ff62255f-1d4a-4f37-bfa3-a80d5ac941cf" name="get-all-business-partners-addresses-subflow" />
+    </flow>
+    <flow name="get:\getAllBusinessPartners:lu-sl-sap-config">
+        <flow-ref doc:name="get-all-business-partners-subflow" doc:id="489852f8-8c83-4ef0-a48c-46fbe84f4e95" name="get-all-business-partners-subflow" />
+    </flow>
+    <flow name="post:\createBusinessPartner:lu-sl-sap-config">
+        <flow-ref doc:name="create-business-partner-subflow" doc:id="cd5b3c16-a0e8-43a5-b28f-1638eeb63ffb" name="create-business-partner-subflow" />
+    </flow>
+    <flow name="post:\createBusinessPartnerAddress:lu-sl-sap-config">
+        <flow-ref doc:name="create-business-partner-address-subflow" doc:id="ac4edeec-813c-4856-ad96-c52dd4396eaa" name="create-business-partner-address-subflow" />
+    </flow>
+</mule>

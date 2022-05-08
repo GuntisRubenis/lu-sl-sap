@@ -1,0 +1,101 @@
+#%RAML 1.0
+title: lu-sl-sap
+description: System API for SAP
+mediaType: [application/json]
+protocols: [HTTPS]
+version: v1
+
+
+types:
+
+/getAllBusinessPartners:
+  get:
+    displayName: retrieve Business Partners
+    queryParameters: 
+      id:
+        description: Business partner Id
+        type: string
+        required: false 
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+
+/getAllBusinessPartnerAddresses:
+  get:
+    displayName: Retrieve Business Partner Addresses
+    queryParameters: 
+      id:
+        description: Business partner Id
+        type: string
+        required: false 
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+
+
+/createBusinessPartner:
+  post:
+    displayName: Cretae Business Partner
+    responses:
+      200:
+        body:
+          application/json:
+            example: 
+
+/updateBusinessPartner:
+  /{id}:
+    patch:
+      displayName: Update Business Partner
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+
+/deleteBusinessPartner:
+  /{id}:
+    delete:
+      displayName: Delete Business Partner
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+
+/createBusinessPartnerAddress:
+  post:
+    displayName: Cretate Business Partner Address
+    responses:
+      200:
+        body:
+          application/json:
+            example: 
+
+/updateBusinessPartnerAddress:
+  /{id}:
+    patch: 
+      displayName: Update Business Partner Address
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+
+/deleteBusinessPartnerAddress:
+  /{id}:
+    delete:
+      displayName: Delete Business Partner Address
+      queryParameters: 
+        addressId:
+          description: Business partner Id
+          type: string
+          required: true 
+      responses:
+        200:
+          body:
+            application/json:
+              example:   
