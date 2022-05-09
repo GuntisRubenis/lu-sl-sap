@@ -6,7 +6,10 @@ protocols: [HTTPS]
 version: v1
 
 
-types:
+securitySchemes:
+  ClientId_Enforcement_policy: !include securitySchemas/clientSecretEnforcement.raml
+
+securedBy: ClientId_Enforcement_policy
 
 /getAllBusinessPartners:
   get:

@@ -140,12 +140,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>709ee967-a9aa-437d-93ae-647a4e9e30d1</groupId>
-			<artifactId>mule-plugin-tap-sl-btc</artifactId>
-			<version>1.0.1</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
 			<groupId>com.mulesoft.connectors</groupId>
 			<artifactId>mule-sap-s4hana-cloud-connector</artifactId>
 			<version>2.4.2</version>
