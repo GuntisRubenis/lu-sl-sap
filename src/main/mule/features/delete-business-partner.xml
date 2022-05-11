@@ -1,22 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/s4hana http://www.mulesoft.org/schema/mule/s4hana/current/mule-s4hana.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="delete-business-partner-subflow" doc:id="92fd9fd8-ad81-4bf4-9211-214a357a23b8" >
 		<ee:transform doc:name="Set Business Partner Id" doc:id="a14539dd-92d6-4635-86ce-9a434a940dac" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="sapPayload" ><![CDATA[%dw 2.0
 output application/json
 ---
 {
 	"BusinessPartner": attributes.uriParams.id
-}]]></ee:set-payload>
-			</ee:message>
+}]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
-		<s4hana:delete-entity service="API_BUSINESS_PARTNER" entityType="A_BusinessPartner" doc:name="Delete Business Partner By Id" doc:id="32588062-b883-47c8-bfd8-2de6d9cd41dc" config-ref="SAP_S_4HANA_Config"/>
+		<http:request method="GET" doc:name="Get ALL Accounts" doc:id="d2acb7c8-1769-4673-a65d-f0b418337762" config-ref="HTTP_Request_configuration_SFDC_System_API" path="/getAllAccounts"/>
+		<ee:transform doc:name="Filter" doc:id="7ff75527-5ed6-4f59-aa1d-d19b02ffd213" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="sfdcId" ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter (item, index) -> (item.Business_Partner_id__c == vars.sapPayload.BusinessPartner and item.IsDeleted == "false")]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Copy_of_Choice" doc:id="cbf47e82-2666-49a3-8d80-6dc9f39e4d8b">
+			<when expression="#[!isEmpty(vars.sfdcId)]">
+				<http:request method="DELETE" doc:name="Delete Account in SFDC" doc:id="4cbf8c1b-a5d1-467a-8c52-97739351031b" config-ref="HTTP_Request_configuration_SFDC_System_API" path="/deleteAccount/{id}">
+					<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"id" : vars.sfdcId.Id[0]
+}]]]></http:uri-params>
+				</http:request>
+			</when>
+		</choice>
+		<s4hana:delete-entity service="API_BUSINESS_PARTNER" entityType="A_BusinessPartner" doc:name="Delete Business Partner By Id" doc:id="32588062-b883-47c8-bfd8-2de6d9cd41dc" config-ref="SAP_S_4HANA_Config">
+			<s4hana:key ><![CDATA[#[vars.sapPayload]]]></s4hana:key>
+		</s4hana:delete-entity>
 		<ee:transform doc:name="Set Payload to JSON" doc:id="22a6a254-2562-4369-ba1b-2078a407452e" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0

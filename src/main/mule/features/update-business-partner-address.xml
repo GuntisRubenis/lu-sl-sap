@@ -17,10 +17,18 @@ payload ++ {"AddressID": attributes.uriParams.id}]]></ee:set-payload>
 		<s4hana:update-entity doc:name="Update Business Partner Id" doc:id="2f22187c-55c3-4c41-98f8-e88adc4e46d2" config-ref="SAP_S_4HANA_Config" service="API_BUSINESS_PARTNER" entityType="A_BusinessPartnerAddress"/>
 		<ee:transform doc:name="Set Payload to JSON" doc:id="e68ec4f7-33f2-4bcc-aa13-e82e503d9dc2" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+				<ee:set-payload ><![CDATA[output application/json
 ---
-payload]]></ee:set-payload>
+{
+        "StreetName": payload.StreetName,
+        "HouseNumber": payload.HouseNumber,
+        "PostalCode": payload.PostalCode,
+        "CityName": payload.CityName,
+        "FullName": payload.FullName,
+        "Country": payload.Country,
+        "BusinessPartner": payload.BusinessPartner,
+        "AddressID": payload.AddressID
+  }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

@@ -18,10 +18,18 @@ payload]]></ee:set-payload>
 		<s4hana:create-entity service="API_BUSINESS_PARTNER" doc:name="Create Business Partner  Adrress" doc:id="894f808a-fdd6-4cfe-bb01-8b096b8f0cf2" config-ref="SAP_S_4HANA_Config" entityType="A_BusinessPartnerAddress"/>
 		<ee:transform doc:name="Set Payload to JSON" doc:id="e3fa3389-e34a-40b9-98fd-e765b8f20744" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+				<ee:set-payload ><![CDATA[output application/json
 ---
-payload]]></ee:set-payload>
+{
+        "StreetName": payload.StreetName,
+        "HouseNumber": payload.HouseNumber,
+        "PostalCode": payload.PostalCode,
+        "CityName": payload.CityName,
+        "FullName": payload.FullName,
+        "Country": payload.Country,
+        "BusinessPartner": payload.BusinessPartner,
+        "AddressID": payload.AddressID
+  }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

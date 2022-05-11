@@ -20,6 +20,25 @@ output application/json
 payload distinctBy $.BusinessPartner]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<ee:transform doc:name="Mapping" doc:id="6e1c7ade-54fd-4699-83b9-0bc35075f407">
+					<ee:message>
+						<ee:set-payload><![CDATA[output application/json
+---
+payload map (value, index) -> {
+  "Industry": value.Industry,
+  "IsSexUnknown": value.IsSexUnknown,
+  "LastName": value.LastName,
+  "BusinessPartnerIsBlocked": value.BusinessPartnerIsBlocked,
+  "Supplier": value.Supplier,
+  "PersonNumber": value.PersonNumber,
+  "IsFemale": value.IsFemale,
+  "IsNaturalPerson": value.IsNaturalPerson,
+  "FirstName": value.FirstName,
+  "IsMale": value.IsMale,
+  "BusinessPartner": value.BusinessPartner
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<ee:transform doc:name="Filter By Id" doc:id="feac32fd-4e11-4b26-ae62-efadab4ab36d" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
@@ -38,6 +57,25 @@ output application/json
 payload distinctBy $.BusinessPartner]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+				<ee:transform doc:name="Mapping" doc:id="6a655b4a-f93f-4f24-9c5e-fda12fa2c7a9" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json
+---
+payload map (value, index) -> {
+  "Industry": value.Industry,
+  "IsSexUnknown": value.IsSexUnknown,
+  "LastName": value.LastName,
+  "BusinessPartnerIsBlocked": value.BusinessPartnerIsBlocked,
+  "Supplier": value.Supplier,
+  "PersonNumber": value.PersonNumber,
+  "IsFemale": value.IsFemale,
+  "IsNaturalPerson": value.IsNaturalPerson,
+  "FirstName": value.FirstName,
+  "IsMale": value.IsMale,
+  "BusinessPartner": value.BusinessPartner
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</otherwise>
 		</choice>
 	</sub-flow>

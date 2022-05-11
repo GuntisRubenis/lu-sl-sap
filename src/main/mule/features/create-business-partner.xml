@@ -77,7 +77,19 @@ output application/json
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+  "Industry": payload.Industry,
+  "IsSexUnknown": payload.IsSexUnknown,
+  "LastName": payload.LastName,
+  "BusinessPartnerIsBlocked": payload.BusinessPartnerIsBlocked,
+  "Supplier": payload.Supplier,
+  "PersonNumber": payload.PersonNumber,
+  "IsFemale": payload.IsFemale,
+  "IsNaturalPerson": payload.IsNaturalPerson,
+  "FirstName": payload.FirstName,
+  "IsMale": payload.IsMale,
+  "BusinessPartner": payload.BusinessPartner
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

@@ -26,5 +26,12 @@ http://www.mulesoft.org/schema/mule/s4hana http://www.mulesoft.org/schema/mule/s
 				<s4hana:unlisted-service value="API_BUSINESS_PARTNER" />
 			</s4hana:unlisted-services>
 		</s4hana:basic-authentication-connection>
-	</s4hana:config>    
+	</s4hana:config>
+	<http:request-config name="HTTP_Request_configuration_SFDC_System_API" doc:name="HTTP Request configuration" doc:id="b26a0ca9-7f6f-42a2-80f0-63a374ab01c6" basePath="${sfdc.basepath}" >
+		<http:request-connection protocol="${sfdc.protocol}" host="${sfdc.host}" port="${sfdc.port}" >
+			<http:authentication >
+				<http:basic-authentication username="${sfdc.auth.username}" password="${sfdc.auth.password}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>      
 </mule>

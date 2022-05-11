@@ -20,6 +20,22 @@ output application/json
 payload distinctBy $.BusinessPartner]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<ee:transform doc:name="Mapping" doc:id="1325aee9-bfdc-4e1a-ac08-7d791110bc54">
+					<ee:message>
+						<ee:set-payload><![CDATA[output application/json
+---
+payload map (value, index) -> {
+        "StreetName": value.StreetName,
+        "HouseNumber": value.HouseNumber,
+        "PostalCode": value.PostalCode,
+        "CityName": value.CityName,
+        "FullName": value.FullName,
+        "Country": value.Country,
+        "BusinessPartner": value.BusinessPartner,
+        "AddressID": value.AddressID
+    }]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<ee:transform doc:name="Filter By Id" doc:id="6d579c1b-9253-4159-b882-42a87fac0a29" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
@@ -38,6 +54,22 @@ output application/json
 payload distinctBy $.BusinessPartner]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+				<ee:transform doc:name="Transform Message" doc:id="080ad46c-2ed0-436a-82a5-872ce5ac4d7c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json
+---
+payload map (value, index) -> {
+        "StreetName": value.StreetName,
+        "HouseNumber": value.HouseNumber,
+        "PostalCode": value.PostalCode,
+        "CityName": value.CityName,
+        "FullName": value.FullName,
+        "Country": value.Country,
+        "BusinessPartner": value.BusinessPartner,
+        "AddressID": value.AddressID
+    }]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</otherwise>
 		</choice>
 	</sub-flow>
